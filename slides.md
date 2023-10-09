@@ -73,31 +73,22 @@ hideInToc: true
 <Toc maxDepth="1"></Toc>
 
 ---
-transition: slide-up
-level: 2
+layout: image-right
+image: ./images/wagtail.png
 ---
 
-# Navigation
+# Wagtail CMS
 
-Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/navigation.html)
+An open source content management system (CMS) built on Django.
 
-## Keyboard Shortcuts
+The `Page` model acts as both "model" and "view". The tree structure of the model is reflected in your website's URL structure.
 
-|     |     |
-| --- | --- |
-| <kbd>right</kbd> / <kbd>space</kbd>| next animation or slide |
-| <kbd>left</kbd>  / <kbd>shift</kbd><kbd>space</kbd> | previous animation or slide |
-| <kbd>up</kbd> | previous slide |
-| <kbd>down</kbd> | next slide |
-
-<!-- https://sli.dev/guide/animations.html#click-animations -->
-<img
-  v-click
-  class="absolute -bottom-9 -left-7 w-80 opacity-50"
-  src="https://sli.dev/assets/arrow-bottom-left.svg"
-  alt=""
-/>
-<p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
+Wagtail gives you the power to:
+- see a live preview as you edit
+- save revisions
+- manage live/draft versions
+- moderate your content
+- and much more!
 
 ---
 layout: image-right
