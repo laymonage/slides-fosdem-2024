@@ -91,44 +91,84 @@ Wagtail gives you the power to:
 - and much more!
 
 ---
-layout: image-right
-image: https://source.unsplash.com/collection/94734566/1920x1080
+layout: default
+transition: fade
 ---
 
-# Code
+# Features
 
-Use code snippets and get the highlighting directly![^1]
-
-```ts {all|2|1-6|9|all}
-interface User {
-  id: number
-  firstName: string
-  lastName: string
-  role: string
-}
-
-function updateUser(id: number, update: User) {
-  const user = getUser(id)
-  const newUser = { ...user, ...update }
-  saveUser(id, newUser)
-}
+```mermaid
+classDiagram
+    class Page {
+      serve_preview()
+      save_revision()
+      ...()
+      live
+      locked
+      workflow_states
+      ...
+    }
 ```
 
-<arrow v-click="[3, 4]" x1="400" y1="420" x2="230" y2="330" color="#564" width="3" arrowSize="1" />
+---
+layout: default
+level: 2
+---
 
-[^1]: [Learn More](https://sli.dev/guide/syntax.html#line-highlighting)
+# Features
 
-<style>
-.footnotes-sep {
-  @apply mt-20 opacity-10;
-}
-.footnotes {
-  @apply text-sm opacity-75;
-}
-.footnote-backref {
-  display: none;
-}
-</style>
+```mermaid
+classDiagram
+    class Page {
+      ...
+    }
+    PreviewableMixin <-- Page
+    RevisionMixin <-- Page
+    DraftStateMixin <-- Page
+    LockableMixin <-- Page
+    WorkflowMixin <-- Page
+    class PreviewableMixin{
+      serve_preview()
+      ...()
+    }
+    class RevisionMixin{
+      save_revision()
+      ...()
+    }
+    class DraftStateMixin {
+      live
+      ...()
+    }
+    class LockableMixin {
+      locked
+      ...()
+    }
+    class WorkflowMixin {
+      workflow_states
+      ...()
+    }
+```
+
+---
+layout: default
+---
+
+# Integrating Wagtail
+
+- Install
+  ```shell
+  python -m pip install wagtail
+  ```
+- Add to `INSTALLED_APPS`
+- Add middleware to `MIDDLEWARES`
+- Add URLs to `urls.py`
+- Run the migrations
+- Hack away!
+
+---
+layout: iframe
+url: https://docs.wagtail.org/en/stable/getting_started/integrating_into_django.html
+---
 
 ---
 
