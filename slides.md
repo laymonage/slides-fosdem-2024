@@ -171,47 +171,23 @@ url: https://docs.wagtail.org/en/stable/getting_started/integrating_into_django.
 ---
 
 ---
+layout: default
+---
 
-# Components
+# Registering your models
 
-<div grid="~ cols-2 gap-4">
-<div>
+Wagtail primarily works with its `Page` model. For other models, you can register them as "snippets".
 
-You can use Vue components directly inside your slides.
+Add a `@register_snippet` decorator to your model.
 
-We have provided a few built-in components like `<Tweet/>` and `<Youtube/>` that you can use directly. And adding your custom components is also super easy.
+```python
+from wagtail.snippets.models import register_snippet
 
-```html
-<Counter :count="10" />
+
+@register_snippet
+class Person(models.Model):
+    ...
 ```
-
-<!-- ./components/Counter.vue -->
-<Counter :count="10" m="t-4" />
-
-Check out [the guides](https://sli.dev/builtin/components.html) for more.
-
-</div>
-<div>
-
-```html
-<Tweet id="1390115482657726468" />
-```
-
-<Tweet id="1390115482657726468" scale="0.65" />
-
-</div>
-</div>
-
-<!--
-Presenter note with **bold**, *italic*, and ~~striked~~ text.
-
-Also, HTML elements are valid:
-<div class="flex w-full">
-  <span style="flex-grow: 1;">Left content</span>
-  <span>Right content</span>
-</div>
--->
-
 
 ---
 class: px-20
