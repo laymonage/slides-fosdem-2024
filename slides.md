@@ -190,35 +190,68 @@ class Person(models.Model):
 ```
 
 ---
-class: px-20
+layout: image-right
+image: ./images/preview.png
 ---
 
-# Themes
+# Enabling live preview
 
-Slidev comes with powerful theming support. Themes can provide styles, layouts, components, or even configurations for tools. Switching between themes by just **one edit** in your frontmatter:
+<div v-click="[0, 1]">
 
-<div grid="~ cols-2 gap-2" m="-t-2">
+The preview feature comes from the `PreviewableMixin` class.
 
-```yaml
----
-theme: default
----
+To use it, add it as a superclass to your model. Then, override the `get_preview_template` and `get_preview_context` methods.
+
+```python
+from wagtail.models import PreviewableMixin
+
+
+@register_snippet
+class Product(PreviewableMixin, models.Model):
+    ...
+
+    def get_preview_template(self, request, preview_mode):
+        return f"products/detail.html"
+
+    def get_preview_context(self, request, preview_mode):
+        return {"product": self}
 ```
-
-```yaml
----
-theme: seriph
----
-```
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-default/01.png?raw=true" alt="">
-
-<img border="rounded" src="https://github.com/slidevjs/themes/blob/main/screenshots/theme-seriph/01.png?raw=true" alt="">
 
 </div>
 
-Read more about [How to use a theme](https://sli.dev/themes/use.html) and
-check out the [Awesome Themes Gallery](https://sli.dev/themes/gallery.html).
+<div v-after>
+
+You can define different preview modes using the `preview_modes` attribute.
+
+```python
+...
+class Product(PreviewableMixin, models.Model):
+    ...
+
+    preview_modes = [
+        ("index", "Index"),
+        ("detail", "Detail"),
+    ]
+
+    def get_preview_template(self, request, preview_mode):
+        return f"products/{preview_mode}.html"
+
+    def get_preview_context(self, request, preview_mode):
+        if preview_mode == "index":
+            return {"products": [self]*20}
+        return {"product": self}
+```
+
+</div>
+
+<style>
+  .slidev-vclick-hidden {
+    display: none;
+  }
+  .grid-cols-2 {
+    grid-template-columns: 4fr 3fr !important;
+  }
+</style>
 
 ---
 preload: false
