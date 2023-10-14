@@ -178,15 +178,24 @@ layout: default
 
 Wagtail primarily works with its `Page` model. For other models, you can register them as "snippets".
 
-Add a `@register_snippet` decorator to your model.
+Add a `@register_snippet` decorator to your model and specify the editable fields using `panels`.
 
 ```python
+from wagtail.admin.panels import FieldPanel
 from wagtail.snippets.models import register_snippet
-
 
 @register_snippet
 class Person(models.Model):
+    name = models.CharField(max_length=255)
+    description = models.TextField()
     ...
+
+    # Optional, but allows you to fine-tune the editable fields and their order
+    panels = [
+        FieldPanel("name"),
+        FieldPanel("description"),
+        ...
+    ]
 ```
 
 ---
