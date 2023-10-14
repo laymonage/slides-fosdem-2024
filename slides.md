@@ -279,32 +279,72 @@ python manage.py migrate
 This allows you to **compare** the changes between revisions and **revert** to a previous revision.
 
 ---
+layout: image-right
+image: ./images/save-draft-publish.png
+transition: none
+---
 
-# LaTeX
+# Enabling "draft" changes
 
-LaTeX is supported out-of-box powered by [KaTeX](https://katex.org/).
+Wagtail allows you to save unpublished changes (**"drafts"**) of your models. This functionality is provided by the `DraftStateMixin`.
 
-<br>
+```python
+from wagtail.models import DraftStateMixin
 
-Inline $\sqrt{3x-1}+(1+x)^2$
+...
+class Product(DraftStateMixin, RevisionMixin, PreviewableMixin, models.Model):
+    ...
+```
 
-Block
-$$ {1|3|all}
-\begin{array}{c}
+After creating and running the migrations, you can make use of the `live` field of the model.
 
-\nabla \times \vec{\mathbf{B}} -\, \frac1c\, \frac{\partial\vec{\mathbf{E}}}{\partial t} &
-= \frac{4\pi}{c}\vec{\mathbf{j}}    \nabla \cdot \vec{\mathbf{E}} & = 4 \pi \rho \\
+```python
+Product.objects.filter(live=True)
+```
 
-\nabla \times \vec{\mathbf{E}}\, +\, \frac1c\, \frac{\partial\vec{\mathbf{B}}}{\partial t} & = \vec{\mathbf{0}} \\
+Unpublished changes are saved as `Revision`s and will not be reflected to your model's instance until you publish them.
 
-\nabla \cdot \vec{\mathbf{B}} & = 0
+<style>
+  .grid-cols-2 {
+    grid-template-columns: 4fr 3fr !important;
+  }
+  .grid-cols-2 :last-child {
+    background-size: contain !important;
+  }
+</style>
 
-\end{array}
-$$
+---
+layout: image-right
+image: ./images/scheduled-publishing.png
+hideInToc: true
+---
 
-<br>
 
-[Learn more](https://sli.dev/guide/syntax#latex)
+# Enabling "draft" changes
+
+To enable the scheduled publishing feature, add the `PublishingPanel` to your model's `panels`.
+
+```python
+from wagtail.admin.panels import PublishingPanel
+
+...
+class Product(DraftStateMixin, RevisionMixin, PreviewableMixin, models.Model):
+    ...
+
+    panels = [
+        ...
+        PublishingPanel(),
+    ]
+```
+
+<style>
+  .grid-cols-2 {
+    grid-template-columns: 4fr 3fr !important;
+  }
+  .grid-cols-2 :last-child {
+    background-size: contain !important;
+  }
+</style>
 
 ---
 
