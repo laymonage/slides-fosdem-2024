@@ -356,6 +356,40 @@ class Product(DraftStateMixin, RevisionMixin, PreviewableMixin, models.Model):
 </style>
 
 ---
+layout: image-right
+image: ./images/locking.png
+---
+
+# Enabling locking
+
+You can prevent multiple users from editing the same model instance at the same time by using the `LockableMixin` class.
+
+```python
+from wagtail.models import LockableMixin
+
+...
+class Product(
+    DraftStateMixin,
+    LockableMixin,
+    RevisionMixin,
+    PreviewableMixin,
+    models.Model,
+):
+    ...
+```
+
+After making and running the migrations, Wagtail will give you the option to lock the model instance.
+
+<style>
+  .grid-cols-2 {
+    grid-template-columns: 3fr 2fr !important;
+  }
+  .grid-cols-2 :last-child {
+    background-size: contain !important;
+  }
+</style>
+
+---
 
 # Diagrams
 
