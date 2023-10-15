@@ -203,7 +203,7 @@ layout: image-right
 image: ./images/preview.png
 ---
 
-# Enabling live preview
+# Live preview
 
 <div v-click="[0, 1]">
 
@@ -266,7 +266,7 @@ class Product(PreviewableMixin, models.Model):
 layout: default
 ---
 
-# Enabling revisions
+# Revisions
 
 You can have revisions for your model by extending the `RevisionMixin` class.
 
@@ -293,7 +293,7 @@ image: ./images/save-draft-publish.png
 transition: none
 ---
 
-# Enabling "draft" changes
+# "Draft" changes
 
 Wagtail allows you to save unpublished changes (**"drafts"**) of your models. This functionality is provided by the `DraftStateMixin`.
 
@@ -329,7 +329,7 @@ hideInToc: true
 ---
 
 
-# Enabling "draft" changes
+# "Draft" changes
 
 To enable the scheduled publishing feature, add the `PublishingPanel` to your model's `panels`.
 
@@ -360,7 +360,7 @@ layout: image-right
 image: ./images/locking.png
 ---
 
-# Enabling locking
+# Locking
 
 You can prevent multiple users from editing the same model instance at the same time by using the `LockableMixin` class.
 
@@ -395,7 +395,7 @@ image: ./images/workflow.png
 transition: none
 ---
 
-# Enabling workflows
+# Workflows
 
 Wagtail allows you to define workflows for your models, which can be used to moderate content changes before they go live. This functionality is provided by the `WorkflowMixin` class.
 
@@ -429,7 +429,7 @@ image: ./images/workflow-status.png
 hideInToc: true
 ---
 
-# Enabling workflows
+# Workflows
 
 By default, Wagtail gives you the "Moderators approval" workflow, which requires a moderator to approve the changes before they go live.
 
