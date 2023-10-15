@@ -390,95 +390,68 @@ After making and running the migrations, Wagtail will give you the option to loc
 </style>
 
 ---
+layout: image-right
+image: ./images/workflow.png
+transition: none
+---
 
-# Diagrams
+# Enabling workflows
 
-You can create diagrams / graphs from textual descriptions, directly in your Markdown.
+Wagtail allows you to define workflows for your models, which can be used to moderate content changes before they go live. This functionality is provided by the `WorkflowMixin` class.
 
-<div class="grid grid-cols-4 gap-5 pt-4 -mb-6">
+```python
+from wagtail.models import WorkflowMixin
 
-```mermaid {scale: 0.5, alt: 'A simple sequence diagram'}
-sequenceDiagram
-    Alice->John: Hello John, how are you?
-    Note over Alice,John: A typical interaction
+...
+class Product(
+    WorkflowMixin,
+    DraftStateMixin,
+    LockableMixin,
+    RevisionMixin,
+    PreviewableMixin,
+    models.Model,
+):
+    ...
 ```
 
-```mermaid {theme: 'neutral', scale: 0.8}
-graph TD
-B[Text] --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
-```
-
-```mermaid
-mindmap
-  root((mindmap))
-    Origins
-      Long history
-      ::icon(fa fa-book)
-      Popularisation
-        British popular psychology author Tony Buzan
-    Research
-      On effectivness<br/>and features
-      On Automatic creation
-        Uses
-            Creative techniques
-            Strategic planning
-            Argument mapping
-    Tools
-      Pen and paper
-      Mermaid
-```
-
-```plantuml {scale: 0.7}
-@startuml
-
-package "Some Group" {
-  HTTP - [First Component]
-  [Another Component]
-}
-
-node "Other Groups" {
-  FTP - [Second Component]
-  [First Component] --> FTP
-}
-
-cloud {
-  [Example 1]
-}
-
-
-database "MySql" {
-  folder "This is my folder" {
-    [Folder 3]
+<style>
+  .grid-cols-2 {
+    grid-template-columns: 2fr 1fr !important;
   }
-  frame "Foo" {
-    [Frame 4]
+  .grid-cols-2 :last-child {
+    background-size: contain !important;
   }
-}
-
-
-[Another Component] --> [Example 1]
-[Example 1] --> [Folder 3]
-[Folder 3] --> [Frame 4]
-
-@enduml
-```
-
-</div>
-
-[Learn More](https://sli.dev/guide/syntax.html#diagrams)
+</style>
 
 ---
-src: ./pages/multiple-entries.md
-hide: false
+layout: image-right
+image: ./images/workflow-status.png
+hideInToc: true
 ---
+
+# Enabling workflows
+
+By default, Wagtail gives you the "Moderators approval" workflow, which requires a moderator to approve the changes before they go live.
+
+You can create custom workflows with custom tasks to suit your specific needs.
+
+<style>
+  .grid-cols-2 {
+    grid-template-columns: 2fr 1fr !important;
+  }
+  .grid-cols-2 :last-child {
+    background-size: contain !important;
+  }
+</style>
 
 ---
 layout: center
 class: text-center
+hideInToc: true
 ---
 
-# Learn More
+# Thank you!
 
-[Documentations](https://sli.dev) · [GitHub](https://github.com/slidevjs/slidev) · [Showcases](https://sli.dev/showcases.html)
+[wagtail.org](https://wagtail.org)
+
+<span class="text-sm opacity-50">Thanks to Storm and Thibaud for helping with ideas for this talk!</span>
