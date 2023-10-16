@@ -14,6 +14,7 @@ transition: slide-left
 title: ✨ Modern editing experience for your Django models with Wagtail 🐦
 hideInToc: true
 mdc: true
+download: true
 ---
 
 <h1 class="!text-5xl font-semibold">
