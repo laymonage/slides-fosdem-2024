@@ -487,6 +487,12 @@ hideInToc: true
 
 # Thank you!
 
-[wagtail.org](https://wagtail.org)
+Learn more at [wagtail.org](https://wagtail.org)
+
+Slides available at [slides.laymonage.com/modern-wagtail](https://slides.laymonage.com/modern-wagtail/)
+
+Code example available at [github.com/laymonage/modern-wagtail](https://github.com/laymonage/modern-wagtail)
+
+Reach out to [me@laymonage.com](mailto:me@laymonage.com)
 
 <span class="text-sm opacity-50">Thanks to Storm and Thibaud for helping with ideas for this talk!</span>
