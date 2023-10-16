@@ -3,7 +3,7 @@
 
 [build]
   publish = "dist"
-  command = "npm run build -- --base /modern-wagtail/"
+  command = "npx playwright install && npm run build -- --base /modern-wagtail/"
 
 [[redirects]]
   from = "/.well-known/*"
