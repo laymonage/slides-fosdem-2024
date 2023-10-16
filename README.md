@@ -1,11 +1,13 @@
-# Welcome to [Slidev](https://github.com/slidevjs/slidev)!
+# ✨ Modern editing experience for your Django models with Wagtail 🐦
 
-To start the slide show:
+Talk given at [DjangoCon US 2023][djcus2023] (2023-10-16).
+Made with [Slidev][slidev].
 
-- `npm install`
-- `npm run dev`
-- visit http://localhost:3030
+View on [slides.laymonage.com/modern-wagtail][slides-modern-wagtail] or serve
+locally by running `npm run dev`. Serving without live reload can also be done
+by running `npm run build` and serving the `dist` directory with
+`python -m http.server` or any other HTTP server.
 
-Edit the [slides.md](./slides.md) to see the changes.
-
-Learn more about Slidev on [documentations](https://sli.dev/).
+[djcus2023]: https://2023.djangocon.us/talks/modern-editing-experience-for-your-django-models-with-wagtail/
+[slidev]: https://sli.dev
+[slides-modern-wagtail]: https://slides.laymonage.com/modern-wagtail
