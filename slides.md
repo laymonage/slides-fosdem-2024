@@ -446,6 +446,40 @@ You can create custom workflows with custom tasks to suit your specific needs.
 </style>
 
 ---
+layout: image-right
+image: ./images/listing.png
+---
+
+# Bonus: customisations
+
+Wagtail allows further customisations to the views for your models by using a custom `SnippetViewSet` subclass and registering that instead. It is similar to Django's `ModelAdmin` class.
+
+```py
+# wagtail_hooks.py
+from wagtail.snippets.models import register_snippet
+from wagtail.snippets.views.snippets import SnippetViewSet
+from products.models import Product
+
+class ProductViewSet(SnippetViewSet):
+    model = Product
+    search_fields = ["name"]
+    list_display = ["name", "final_price", "stock"]
+    list_export = ["name", "price", "discount", "final_price", "stock"]
+    list_filter = {"discount": ["gte"], "stock": ["lte"]}
+
+register_snippet(ProductViewSet)
+```
+
+<style>
+  .grid-cols-2 {
+    grid-template-columns: 2fr 1fr !important;
+  }
+  .grid-cols-2 :last-child {
+    background-size: contain !important;
+  }
+</style>
+
+---
 layout: center
 class: text-center
 hideInToc: true
