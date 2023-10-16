@@ -1,5 +1,5 @@
 {
-  "name": "slides-integrate-wagtail",
+  "name": "slides-modern-wagtail",
   "private": true,
   "scripts": {
     "build": "slidev build",

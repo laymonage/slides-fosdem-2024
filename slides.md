@@ -23,9 +23,9 @@ mdc: true
 <p class="!opacity-90">Sage Abdullah</p>
 
 <div class="abs-br m-6 flex gap-2">
-  <a href="https://slides.laymonage.com/integrate-wagtail" target="_blank"
+  <a href="https://slides.laymonage.com/modern-wagtail" target="_blank"
     class="text-xl slidev-icon-btn !py-1 opacity-50 !border-none !hover:text-white">
-    slides.laymonage.com/integrate-wagtail
+    slides.laymonage.com/modern-wagtail
   </a>
 </div>
 
