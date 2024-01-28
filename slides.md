@@ -202,11 +202,10 @@ class Person(models.Model):
 ---
 layout: image-right
 image: ./images/preview.png
+transition: none
 ---
 
 # Live preview
-
-<div v-click="[0, 1]">
 
 The preview feature comes from the `PreviewableMixin` class.
 
@@ -227,9 +226,21 @@ class Product(PreviewableMixin, models.Model):
         return {"product": self}
 ```
 
-</div>
+<style>
+  .slidev-vclick-hidden {
+    display: none;
+  }
+  .grid-cols-2 {
+    grid-template-columns: 4fr 3fr !important;
+  }
+</style>
 
-<div v-after>
+---
+layout: image-right
+image: ./images/preview-alt.png
+---
+
+# Live preview
 
 You can define different preview modes using the `preview_modes` attribute.
 
@@ -251,8 +262,6 @@ class Product(PreviewableMixin, models.Model):
             return {"products": [self]*20}
         return {"product": self}
 ```
-
-</div>
 
 <style>
   .slidev-vclick-hidden {
