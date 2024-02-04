@@ -578,7 +578,7 @@ layout: default
 An optional package, `wagtail-ai`, provides AI-powered features in the CMS.
 
 <div class="flex items-center justify-center w-full mt-8">
-  <video width="600" src="/images/wagtail-ai-demo.mp4" controls loop autoplay muted></video>
+  <video width="600" src="/images/wagtail-ai-demo.mp4" controls loop muted></video>
 </div>
 
 ---
