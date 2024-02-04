@@ -24,9 +24,9 @@ download: true
 <p class="!opacity-90">Sage Abdullah</p>
 
 <div class="abs-br m-6 flex gap-2">
-  <a href="https://slides.laymonage.com/modern-wagtail" target="_blank"
+  <a href="https://slides.laymonage.com/fosdem-2024" target="_blank"
     class="text-xl slidev-icon-btn !py-1 opacity-50 !border-none !hover:text-white">
-    slides.laymonage.com/modern-wagtail
+    slides.laymonage.com/fosdem-2024
   </a>
 </div>
 
@@ -93,6 +93,7 @@ Wagtail gives you the power to:
 
 ---
 layout: default
+hideInToc: true
 ---
 
 # Tree structure of `Page`
@@ -182,6 +183,7 @@ layout: default
 
 ---
 layout: default
+hideInToc: true
 ---
 
 # Content types in Wagtail
@@ -365,6 +367,7 @@ How we built it:
 
 ---
 layout: default
+transition: none
 ---
 
 # Revisions
@@ -380,6 +383,19 @@ class Product(RevisionMixin, PreviewableMixin, models.Model):
 ```
 
 ![History of "Thibaud Colas" Person content](/images/snippet-history.png)
+
+---
+layout: default
+hideInToc: true
+---
+
+# Revisions
+
+You can compare revisions and revert to a previous version.
+
+<div class="flex items-center justify-center w-full mt-4">
+  <img width="500" alt="Comparing two revisions of a page" src="/images/revision-comparison.png" />
+</div>
 
 ---
 layout: image-right
@@ -537,38 +553,32 @@ class GroupApprovalTask(Task):
 </style>
 
 ---
-layout: image-right
-image: ./images/listing.png
+layout: default
 ---
 
-# Bonus: customisations
+# Accessibility checker
 
-Wagtail allows further customisations to the views for your models by using a custom `SnippetViewSet` subclass and registering that instead. It is similar to Django's `ModelAdmin` class.
+An accessibility checker is built-in to the page editor, powered by `axe-core`.
 
-```py
-# wagtail_hooks.py
-from wagtail.snippets.models import register_snippet
-from wagtail.snippets.views.snippets import SnippetViewSet
-from products.models import Product
+It checks the content for common accessibility issues and suggests improvements.
 
-class ProductViewSet(SnippetViewSet):
-    model = Product
-    search_fields = ["name"]
-    list_display = ["name", "final_price", "stock"]
-    list_export = ["name", "price", "discount", "final_price", "stock"]
-    list_filter = {"discount": ["gte"], "stock": ["lte"]}
+<div class="flex items-center justify-center w-full mt-8">
 
-register_snippet(ProductViewSet)
-```
+<img width="600" alt="Wagtail's accessibility checker" src="/images/accessibility-checker.png" />
 
-<style>
-  .grid-cols-2 {
-    grid-template-columns: 2fr 1fr !important;
-  }
-  .grid-cols-2 :last-child {
-    background-size: contain !important;
-  }
-</style>
+</div>
+
+---
+layout: default
+---
+
+# Did somebody say AI?
+
+An optional package, `wagtail-ai`, provides AI-powered features in the CMS.
+
+<div class="flex items-center justify-center w-full mt-8">
+  <video width="600" src="/images/wagtail-ai-demo.mp4" controls loop autoplay muted></video>
+</div>
 
 ---
 layout: center
@@ -580,6 +590,8 @@ hideInToc: true
 
 Learn more at [wagtail.org](https://wagtail.org)
 
-Slides available at [slides.laymonage.com/modern-wagtail](https://slides.laymonage.com/modern-wagtail/)
+Slides available at [slides.laymonage.com/fosdem-2024](https://slides.laymonage.com/fosdem-2024/)
+
+Wagtail AI webinar on February 7th: [wagtail.org/wagtail-ai](https://wagtail.org/wagtail-ai/)
 
 Reach out to [me@laymonage.com](mailto:me@laymonage.com)
