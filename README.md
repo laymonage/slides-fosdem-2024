@@ -1,6 +1,6 @@
 # ✨ Modern editing experiences you can build in your CMS 🐦
 
-Talk given at [FOSDEM 2024][fosdem2024] (2023-10-16).
+Talk given at [FOSDEM 2024][fosdem2024] (2024-02-04).
 Made with [Slidev][slidev].
 
 View on [slides.laymonage.com/fosdem-2024][slides-fosdem-2024] or serve
