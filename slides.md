@@ -5,20 +5,20 @@ class: text-center
 highlighter: shiki
 lineNumbers: false
 info: |
-  ## ✨ Modern editing experience for your Django models with Wagtail 🐦
+  ## ✨ Modern editing experience you can build in your CMS 🐦
 
-  Presented at DjangoCon US 2023.
+  Presented at FOSDEM 2024.
 drawings:
   persist: false
 transition: slide-left
-title: ✨ Modern editing experience for your Django models with Wagtail 🐦
+title: ✨ Modern editing experience you can build in your CMS 🐦
 hideInToc: true
 mdc: true
 download: true
 ---
 
 <h1 class="!text-5xl font-semibold">
-✨ Modern editing experience for your Django models with Wagtail 🐦
+✨ Modern editing experience you can build in your CMS 🐦
 </h1>
 
 <p class="!opacity-90">Sage Abdullah</p>
@@ -45,7 +45,6 @@ hideInToc: true
 - Sage Abdullah / **@laymonage**
 - **Wagtail Developer** at Torchbox
 - Google Summer of Code 2019 student with Django
-  - Cross-database **`JSONField`**
 - Google Summer of Code & Outreachy mentor for Wagtail
 
 </div>
@@ -82,7 +81,8 @@ image: ./images/wagtail.png
 
 An open source content management system (CMS) built on Django.
 
-The `Page` model acts as both "model" and "view". The tree structure of the model is reflected in your website's URL structure.
+It's built around the `Page` content type, which is stored in a tree structure
+that defines the site's URLs.
 
 Wagtail gives you the power to:
 - see a live preview as you edit
@@ -90,6 +90,120 @@ Wagtail gives you the power to:
 - manage live/draft versions
 - moderate your content
 - and much more!
+
+---
+layout: default
+---
+
+# Tree structure of `Page`
+
+<div class="flex gap-8 text-3xl">
+
+```
+── Home
+    └── Publications
+        └── My latest publication
+    └── Gallery
+    └── About Us
+        └── Team
+        └── Careers
+```
+
+```
+/
+/publications/
+/publications/my-latest-publication/
+/gallery/
+/about/
+/about/team/
+/about/careers/
+```
+
+</div>
+
+<style>
+  .slidev-code, .shiki-container pre {
+    font-size: 1.25rem !important;
+    line-height: 2 !important;
+  }
+</style>
+
+---
+layout: default
+---
+
+# Content is **not** just about pages
+
+You may have other "snippets" of content that are not part of the page tree.
+
+Or, content types from a project that does not use a CMS.
+
+```python
+from django.db import models
+from wagtail.snippets.models import register_snippet
+
+@register_snippet
+class Person(models.Model):
+    name = models.CharField(max_length=255)
+    intro = models.TextField()
+    ...
+```
+
+---
+layout: default
+---
+
+# The Zen of Wagtail
+
+<v-clicks>
+
+- Always wear the right hat.
+  - designer
+  - developer
+  - site administrator
+  - the content author
+- A CMS should get information out of an editor’s head and into a database,\
+  as efficiently and directly as possible.
+- The best user interface for a programmer is usually a programming language.
+
+</v-clicks>
+
+---
+layout: default
+---
+
+# Managing content types in the CMS?
+
+<div class="flex items-center justify-center w-full">
+  <img width="700" alt="Managing content types in Drupal" src="/images/drupal-content-types.png" />
+</div>
+
+[https://www.drupal.org/docs/user_guide/en/structure-fields.html](https://www.drupal.org/docs/user_guide/en/structure-fields.html)
+
+---
+layout: default
+---
+
+# Content types in Wagtail
+
+Developers have complete control over the content types and their fields – in the code.
+
+```py
+class BlogPage(Page):
+    introduction = models.TextField(help_text="Text to describe the page", blank=True)
+    image = models.ForeignKey("wagtailimages.Image", ...)
+    body = StreamField(BaseStreamBlock(), verbose_name="Page body", ...)
+    subtitle = models.CharField(blank=True, max_length=255)
+    author = models.ForeignKey("myapp.Person", ...)
+    ...
+
+
+@register_snippet
+class Person(models.Model):
+    name = models.CharField(max_length=255)
+    intro = models.TextField()
+    ...
+```
 
 ---
 layout: default
@@ -151,55 +265,6 @@ classDiagram
 ```
 
 ---
-layout: default
----
-
-# Integrating Wagtail
-
-- Install
-  ```shell
-  python -m pip install wagtail
-  ```
-- Add to `INSTALLED_APPS`
-- Add middleware to `MIDDLEWARES`
-- Add URLs to `urls.py`
-- Run the migrations
-- Hack away!
-
----
-layout: iframe
-url: https://docs.wagtail.org/en/stable/getting_started/integrating_into_django.html
----
-
----
-layout: default
----
-
-# Registering your models
-
-Wagtail primarily works with its `Page` model. For other models, you can register them as "snippets".
-
-Add a `@register_snippet` decorator to your model and specify the editable fields using `panels`.
-
-```python
-from wagtail.admin.panels import FieldPanel
-from wagtail.snippets.models import register_snippet
-
-@register_snippet
-class Person(models.Model):
-    name = models.CharField(max_length=255)
-    description = models.TextField()
-    ...
-
-    # Optional, but allows you to fine-tune the editable fields and their order
-    panels = [
-        FieldPanel("name"),
-        FieldPanel("description"),
-        ...
-    ]
-```
-
----
 layout: image-right
 image: ./images/preview.png
 transition: none
@@ -207,9 +272,7 @@ transition: none
 
 # Live preview
 
-The preview feature comes from the `PreviewableMixin` class.
-
-To use it, add it as a superclass to your model. Then, override the `get_preview_template` and `get_preview_context` methods.
+To help editors see how their changes will look on the live site, developers can define preview modes.
 
 ```python
 from wagtail.models import PreviewableMixin
@@ -217,38 +280,6 @@ from wagtail.models import PreviewableMixin
 
 @register_snippet
 class Product(PreviewableMixin, models.Model):
-    ...
-
-    def get_preview_template(self, request, preview_mode):
-        return f"products/detail.html"
-
-    def get_preview_context(self, request, preview_mode):
-        return {"product": self}
-```
-
-<style>
-  .slidev-vclick-hidden {
-    display: none;
-  }
-  .grid-cols-2 {
-    grid-template-columns: 4fr 3fr !important;
-  }
-</style>
-
----
-layout: image-right
-image: ./images/preview-alt.png
----
-
-# Live preview
-
-You can define different preview modes using the `preview_modes` attribute.
-
-```python
-...
-class Product(PreviewableMixin, models.Model):
-    ...
-
     preview_modes = [
         ("index", "Index"),
         ("detail", "Detail"),
@@ -264,9 +295,69 @@ class Product(PreviewableMixin, models.Model):
 ```
 
 <style>
-  .slidev-vclick-hidden {
-    display: none;
+  .grid-cols-2 {
+    grid-template-columns: 4fr 3fr !important;
   }
+</style>
+
+---
+layout: image-right
+image: ./images/preview-alt.png
+hideInToc: true
+transition: none
+---
+
+# Live preview
+
+To help editors see how their changes will look on the live site, developers can define preview modes.
+
+```python
+from wagtail.models import PreviewableMixin
+
+
+@register_snippet
+class Product(PreviewableMixin, models.Model):
+    preview_modes = [
+        ("index", "Index"),
+        ("detail", "Detail"),
+    ]
+
+    def get_preview_template(self, request, preview_mode):
+        return f"products/{preview_mode}.html"
+
+    def get_preview_context(self, request, preview_mode):
+        if preview_mode == "index":
+            return {"products": [self]*20}
+        return {"product": self}
+```
+
+<style>
+  .grid-cols-2 {
+    grid-template-columns: 4fr 3fr !important;
+  }
+</style>
+
+---
+layout: image-right
+image: ./images/preview.png
+hideInToc: true
+---
+
+# Live preview
+
+How we built it:
+
+<v-clicks>
+
+- Check the form for changes
+- Submit it to the server
+- Reload the preview iframe with the new content
+- Issue: flashing iframe on reload
+- Solution: create a new invisible iframe, swap it when it finishes loading
+
+</v-clicks>
+
+<style>
   .grid-cols-2 {
     grid-template-columns: 4fr 3fr !important;
   }
@@ -278,7 +369,7 @@ layout: default
 
 # Revisions
 
-You can have revisions for your model by extending the `RevisionMixin` class.
+Add versioning to your content type by extending the `RevisionMixin` class.
 
 ```python
 from wagtail.models import RevisionMixin
@@ -288,14 +379,7 @@ class Product(RevisionMixin, PreviewableMixin, models.Model):
     ...
 ```
 
-Then, create and and run the migrations.
-
-```shell
-python manage.py makemigrations
-python manage.py migrate
-```
-
-This allows you to **compare** the changes between revisions and **revert** to a previous revision.
+![History of "Thibaud Colas" Person content](/images/snippet-history.png)
 
 ---
 layout: image-right
@@ -305,7 +389,7 @@ transition: none
 
 # "Draft" changes
 
-Wagtail allows you to save unpublished changes (**"drafts"**) of your models. This functionality is provided by the `DraftStateMixin`.
+Use `DraftStateMixin` to have the ability to save unpublished changes (**drafts**).
 
 ```python
 from wagtail.models import DraftStateMixin
@@ -315,13 +399,7 @@ class Product(DraftStateMixin, RevisionMixin, PreviewableMixin, models.Model):
     ...
 ```
 
-After creating and running the migrations, you can make use of the `live` field of the model.
-
-```python
-Product.objects.filter(live=True)
-```
-
-Unpublished changes are saved as `Revision`s and will not be reflected to your model's instance until you publish them.
+Unpublished changes are saved as revisions and will not be reflected to the live content until you publish them.
 
 <style>
   .grid-cols-2 {
@@ -333,28 +411,19 @@ Unpublished changes are saved as `Revision`s and will not be reflected to your m
 </style>
 
 ---
-layout: image-right
-image: ./images/scheduled-publishing.png
+layout: default
 hideInToc: true
 ---
 
 
 # "Draft" changes
 
-To enable the scheduled publishing feature, add the `PublishingPanel` to your model's `panels`.
+Drafts can be scheduled to be published at a later time.
 
-```python
-from wagtail.admin.panels import PublishingPanel
+<div class="flex items-center justify-center w-full mt-8">
+  <img width="400" alt="Wagtail's scheduled publishing feature" src="/images/scheduled-publishing.png" />
+</div>
 
-...
-class Product(DraftStateMixin, RevisionMixin, PreviewableMixin, models.Model):
-    ...
-
-    panels = [
-        ...
-        PublishingPanel(),
-    ]
-```
 
 <style>
   .grid-cols-2 {
@@ -372,7 +441,7 @@ image: ./images/locking.png
 
 # Locking
 
-You can prevent multiple users from editing the same model instance at the same time by using the `LockableMixin` class.
+You can prevent multiple users from editing the same content at the same time by using the `LockableMixin` class.
 
 ```python
 from wagtail.models import LockableMixin
@@ -387,8 +456,6 @@ class Product(
 ):
     ...
 ```
-
-After making and running the migrations, Wagtail will give you the option to lock the model instance.
 
 <style>
   .grid-cols-2 {
@@ -407,7 +474,9 @@ transition: none
 
 # Workflows
 
-Wagtail allows you to define workflows for your models, which can be used to moderate content changes before they go live. This functionality is provided by the `WorkflowMixin` class.
+If `WorkflowMixin` is enabled, you can define workflows for your content types.
+
+Workflows can be used to moderate content changes before they go live.
 
 ```python
 from wagtail.models import WorkflowMixin
@@ -441,9 +510,22 @@ hideInToc: true
 
 # Workflows
 
-By default, Wagtail gives you the "Moderators approval" workflow, which requires a moderator to approve the changes before they go live.
+A workflow is a series of tasks (stages) that a piece of content must go through before a final goal (e.g. publishing) is reached.
 
-You can create custom workflows with custom tasks to suit your specific needs.
+Developers can write custom "task types" to define the conditions and actions for each task.
+
+```python
+class GroupApprovalTask(Task):
+    groups = models.ManyToManyField(Group, ...)
+
+    def get_actions(self, obj, user):
+        ...
+
+    def on_action(task_state, user, action_name, **kwargs):
+        ...
+
+    ...
+```
 
 <style>
   .grid-cols-2 {
@@ -500,8 +582,4 @@ Learn more at [wagtail.org](https://wagtail.org)
 
 Slides available at [slides.laymonage.com/modern-wagtail](https://slides.laymonage.com/modern-wagtail/)
 
-Code example available at [github.com/laymonage/modern-wagtail](https://github.com/laymonage/modern-wagtail)
-
 Reach out to [me@laymonage.com](mailto:me@laymonage.com)
-
-<span class="text-sm opacity-50">Thanks to Storm and Thibaud for helping with ideas for this talk!</span>
