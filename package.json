@@ -1,5 +1,5 @@
 {
-  "name": "slides-modern-wagtail",
+  "name": "slides-fosdem-2024",
   "private": true,
   "scripts": {
     "build": "slidev build",
