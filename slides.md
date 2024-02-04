@@ -158,6 +158,7 @@ layout: default
 
 <v-clicks>
 
+- Wagtail is not an instant website in a box.
 - Always wear the right hat.
   - designer
   - developer
